@@ -105,6 +105,15 @@ def main():
             f.write(text)
         print("geschrieben:", datei)
 
+    # Stufe 4: Lösung + Gebäudeauswahl, Modulbelegung und Python-Befehl (Brücke zu Schritt 5/6)
+    zusatz = open(os.path.join(HERE, "_stufe4_zusatz.js"), encoding="utf-8").read()
+    text = code.replace("{{KOPF}}\n", KOPF.format(
+        stufe="Stufe 4: Vom Stadtmodell zum Gebäude",
+        beschreibung="Lösung + Dach anklicken → Module legen, Python-Befehl für Schritt 5+6")) + zusatz
+    with open(os.path.join(HERE, "stufe4_gebaeude.js"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    print("geschrieben: stufe4_gebaeude.js")
+
     # README mit kopierbaren Snippets
     raw = "https://raw.githubusercontent.com/christof2304/greenbim-pv-mainz/main/sandcastle/schritt4"
     md = [
@@ -123,6 +132,7 @@ def main():
     ]
     for t in TODOS:
         md.append(f"| {t['nr']} | [{t['datei']}]({t['datei']}) | {t['sicht']} |")
+    md.append("| 4 | [stufe4_gebaeude.js](stufe4_gebaeude.js) | Lösung + Gebäude anklicken, Module legen, Python-Befehl |")
     for t in TODOS:
         md += [
             "",
@@ -144,6 +154,20 @@ def main():
             "",
             f"Nicht geklappt? Ganze Datei nehmen: [{t['datei']}]({t['datei']})",
         ]
+    md += [
+        "",
+        "## Stufe 4: Vom Stadtmodell zum Gebäude",
+        "",
+        "[stufe4_gebaeude.js](stufe4_gebaeude.js) ist die Lösung plus drei Buttons oben links:",
+        "",
+        "1. Auf ein **Dach** klicken: Das Gebäude ist ausgewählt (Anzeige oben rechts).",
+        "2. **Module legen**: PV-Module wie in `python/module_layout.py` direkt im 3D-Modell, mit Anzahl, kWp, kWh/a und CO₂.",
+        "3. **Module entfernen**: räumt wieder auf.",
+        "4. **Befehl Schritt 5+6**: zeigt den fertigen Python-Befehl mit der Gebäude-ID und kopiert ihn, wenn der Browser es erlaubt.",
+        "",
+        "Das IFC selbst entsteht weiterhin in Python, siehe [`python/SCHRITT5.md`](../../python/SCHRITT5.md) und [`python/SCHRITT6.md`](../../python/SCHRITT6.md).",
+        "Sandcastle zeigt die Belegung nur an. Für Planung und Ökobilanz braucht ihr die IFC-Datei.",
+    ]
     with open(os.path.join(HERE, "README.md"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(md) + "\n")
     print("geschrieben: README.md")

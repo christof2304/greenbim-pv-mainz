@@ -117,7 +117,10 @@ def layout_plane(p):
     up_slope = north * math.cos(t) + np.array([0, 0, 1.0]) * math.sin(t)   # Modul steigt nach Norden an
     normal = np.cross(east, up_slope)
     for x, y in cells:
-        origin = o + east * x + north * y + np.array([0, 0, 0.30])  # Unterkonstruktion 30 cm
+        d = east * x + north * y
+        # Höhe der (evtl. leicht geneigten) Dachebene an dieser Stelle: n · (p − o) = 0
+        dz = -(n[0] * d[0] + n[1] * d[1]) / n[2]
+        origin = o + d + np.array([0, 0, dz + 0.30])  # Unterkonstruktion 30 cm
         mats.append(np.column_stack([np.append(east, 0), np.append(up_slope, 0), np.append(normal, 0), np.append(origin, 1)]))
     return mats, RACK_TILT, 180.0
 

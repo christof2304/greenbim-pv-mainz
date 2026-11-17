@@ -13,6 +13,7 @@ Token: In der Zeile `// Cesium.Ion.defaultAccessToken = "HIER_EUREN_TOKEN_EINFÜ
 | 1 | [stufe1_farbe.js](stufe1_farbe.js) | Dächer farbig, aber alle gleich |
 | 2 | [stufe2_normale.js](stufe2_normale.js) | fast unverändert, nur kleine Unterschiede nach Neigung |
 | 3 | [stufe3_einfallswinkel.js](stufe3_einfallswinkel.js) | Sonnenseiten rot, Schattenseiten blau = Lösung |
+| 4 | [stufe4_gebaeude.js](stufe4_gebaeude.js) | Lösung + Gebäude anklicken, Module legen, Python-Befehl |
 
 ## TODO 1: Farbe
 
@@ -67,3 +68,15 @@ const cosTheta = Cesium.Cartesian3.dot(n, sun);
 Ergebnis: Fertig: Sonnenseiten werden rot, abgewandte Seiten blau, und alles wandert mit der Uhrzeit. Die Legende zeigt jetzt die Gesamtleistung.
 
 Nicht geklappt? Ganze Datei nehmen: [stufe3_einfallswinkel.js](stufe3_einfallswinkel.js)
+
+## Stufe 4: Vom Stadtmodell zum Gebäude
+
+[stufe4_gebaeude.js](stufe4_gebaeude.js) ist die Lösung plus drei Buttons oben links:
+
+1. Auf ein **Dach** klicken: Das Gebäude ist ausgewählt (Anzeige oben rechts).
+2. **Module legen**: PV-Module wie in `python/module_layout.py` direkt im 3D-Modell, mit Anzahl, kWp, kWh/a und CO₂.
+3. **Module entfernen**: räumt wieder auf.
+4. **Befehl Schritt 5+6**: zeigt den fertigen Python-Befehl mit der Gebäude-ID und kopiert ihn, wenn der Browser es erlaubt.
+
+Das IFC selbst entsteht weiterhin in Python, siehe [`python/SCHRITT5.md`](../../python/SCHRITT5.md) und [`python/SCHRITT6.md`](../../python/SCHRITT6.md).
+Sandcastle zeigt die Belegung nur an. Für Planung und Ökobilanz braucht ihr die IFC-Datei.
