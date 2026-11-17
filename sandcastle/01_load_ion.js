@@ -7,7 +7,7 @@ import * as Cesium from "cesium";
 
 // Euer Token: https://ion.cesium.com/tokens
 // Cesium.Ion.defaultAccessToken = "HIER_EUREN_TOKEN_EINFÜGEN";
-const ION_ASSET_ID = 6169786; // <- eure Asset-ID (ion -> My Assets -> CityGML-Upload)
+const ION_ASSET_ID = 6169981; // <- eure Asset-ID (ion -> My Assets -> CityGML-Upload)
 
 const viewer = new Cesium.Viewer("cesiumContainer", {
   terrain: Cesium.Terrain.fromWorldTerrain(),

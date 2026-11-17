@@ -10,7 +10,7 @@ import Sandcastle from "Sandcastle";
 // ---- 1) Eigene Daten ------------------------------------------------
 // Euer Token: https://ion.cesium.com/tokens  (Sandcastle hat auch einen Default-Token)
 // Cesium.Ion.defaultAccessToken = "HIER_EUREN_TOKEN_EINFÜGEN";
-const ION_ASSET_ID = 6169786; // <- eure Asset-ID aus Cesium ion (CityGML-Upload)
+const ION_ASSET_ID = 6169981; // <- eure Asset-ID aus Cesium ion (CityGML-Upload)
 const ROOFS_URL =
   "https://raw.githubusercontent.com/christof2304/greenbim-pv-mainz/main/data/campus_roofs_pv.geojson";
 const CAMPUS = Cesium.Cartesian3.fromDegrees(8.2274, 49.9884, 150);
