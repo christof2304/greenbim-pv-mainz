@@ -46,6 +46,7 @@ python/
   citygml_to_ifc.py          ein Gebäude -> georeferenziertes IFC4
   ifc_roofs.py               Dachflächen aus beliebigem IFC (z. B. Revit) bewerten
   module_layout.py           Modulbelegung als IfcSolarDevice ins IFC schreiben
+  SCHRITT5.md                Anleitung: Gebäude-ID aus Sandcastle → IFC
 ```
 
 ## Schnellstart Sandcastle (Schritte 3–4)
@@ -56,6 +57,8 @@ python/
 4. Die drei `TODO`s der Reihe nach lösen. Welche Zeile wodurch ersetzt wird, steht in [`sandcastle/schritt4/README.md`](sandcastle/schritt4/README.md). Wer hängen bleibt, fügt einfach die Datei der nächsten Stufe komplett ein, die letzte Stufe ist die Lösung.
 
 ## Schnellstart Python (Schritte 5–6)
+
+Ausführliche Anleitung für Schritt 5 (Gebäude aus Sandcastle auswählen → IFC): [`python/SCHRITT5.md`](python/SCHRITT5.md)
 
 ```bash
 cd python
