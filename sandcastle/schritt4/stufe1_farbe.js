@@ -1,7 +1,8 @@
 // =====================================================================
-//  Green BIM – HS Mainz | Schritt 4 (MITMACH-VERSION): Solare Einstrahlung auf LoD2-Dächer
-//  Sucht die drei Stellen mit  TODO  und füllt sie aus. Lösung: 03_irradiance.js
-//  Einfach komplett in https://sandcastle.cesium.com einfügen und "Run" klicken.
+//  Green BIM – HS Mainz | Schritt 4 · Stufe 1 von 3: Farbe
+//  Gelöst bis TODO 1. Weiter mit stufe2_normale.js
+//  Komplett in https://sandcastle.cesium.com einfügen und "Run" klicken.
+//  Alle Stufen: github.com/christof2304/greenbim-pv-mainz/tree/main/sandcastle/schritt4
 // =====================================================================
 
 import * as Cesium from "cesium";
@@ -85,9 +86,9 @@ function sunDirectionENU(time) {
 function surfaceNormalENU(tiltDeg, azimuthDeg) {
   const t = Cesium.Math.toRadians(tiltDeg);
   const a = Cesium.Math.toRadians(azimuthDeg); // 0° = Nord, 90° = Ost, 180° = Süd
-  // TODO 1: Normalenvektor der Dachfläche in ENU (x = Ost, y = Nord, z = Oben).
-  //   Flachdach (t = 0) -> (0, 0, 1); 90° nach Süden geneigt -> (0, -1, 0)
-  //   Tipp: horizontaler Anteil = sin(t), aufgeteilt mit sin(a) / cos(a)
+  // TODO 2: Normalenvektor der Dachfläche in ENU (x = Ost, y = Nord, z = Oben)
+  //   Flachdach (t = 0°) → (0, 0, 1); senkrecht nach Süden (t = 90°, a = 180°) → (0, −1, 0)
+  //   Tipp: Der waagerechte Anteil ist sin(t), aufgeteilt mit sin(a) nach Ost und cos(a) nach Nord
   return new Cesium.Cartesian3(0, 0, 1);
 }
 
@@ -98,14 +99,14 @@ function irradiance(sun, tiltDeg, azimuthDeg) {
   const DNI = 1361 * Math.pow(0.7, Math.pow(airMass, 0.678)); // Meinel & Meinel 1976
   const DHI = 0.1 * DNI; // grobe Annahme für klaren Himmel
   const n = surfaceNormalENU(tiltDeg, azimuthDeg);
-  // TODO 2: Kosinus des Einfallswinkels zwischen Flächennormale n und Sonnenrichtung sun
-  //   Tipp: beide sind Einheitsvektoren -> Skalarprodukt (Cesium.Cartesian3.dot)
+  // TODO 3: Kosinus des Einfallswinkels zwischen Dachnormale n und Sonnenrichtung sun
+  //   Tipp: Beide sind Einheitsvektoren → Skalarprodukt (Cesium.Cartesian3.dot)
   const cosTheta = 1;
   const tilt = Cesium.Math.toRadians(tiltDeg);
   return DNI * Math.max(0, cosTheta) + DHI * (1 + Math.cos(tilt)) / 2; // W/m²
 }
 
-// Prüft, ob TODO 1 und 2 gelöst sind. Vorher wäre die Leistungssumme Unsinn.
+// Prüft, ob TODO 2 und 3 gelöst sind. Vorher wäre die Leistungssumme Unsinn.
 function todosSolved() {
   const n = surfaceNormalENU(90, 180); // Südfassade, richtig wäre (0, -1, 0)
   if (n.y > -0.99) return false;
@@ -138,9 +139,8 @@ function updateColors() {
     if (mode.startsWith("Momentan")) {
       const E = irradiance(sun, tilt, az);
       sum += (E * area) / 1000;
-      // TODO 3: Farbe aus der Einstrahlung E berechnen (0 W/m² = blau, 1000 W/m² = rot)
-      //   Tipp: es gibt oben eine Funktion ramp(wert, min, max)
-      color = Cesium.Color.WHITE;
+      // ✔ TODO 1 gelöst: Farbe aus der Einstrahlung (0 W/m² = blau, 1000 W/m² = rot)
+      color = ramp(E, 0, 1000);
     } else {
       color = ramp(p.irr_kwh_m2.getValue(), 700, 1300);
     }
@@ -151,7 +151,7 @@ function updateColors() {
     ? `<b>${local}</b><br>Sonnenhöhe ${elev.toFixed(1)}°, Azimut ${azim.toFixed(0)}°<br>` +
       (todosSolved()
         ? `Leistung auf allen Dächern: <b>${(sum / 1000).toFixed(1)} MW</b> (Strahlung, ohne Wirkungsgrad)<br>`
-        : `Leistung auf allen Dächern: <b>—</b> (erst nach TODO 1 + 2)<br>`) +
+        : `Leistung auf allen Dächern: <b>—</b> (erst nach TODO 2 + 3)<br>`) +
       `<span style="color:#66f">■</span> 0 &nbsp;→&nbsp; <span style="color:#f44">■</span> 1000 W/m²`
     : `<b>Jahressumme (PVGIS-TMY, pvlib)</b><br>` +
       `<span style="color:#66f">■</span> 700 &nbsp;→&nbsp; <span style="color:#f44">■</span> 1300 kWh/m²a`;

@@ -32,8 +32,13 @@ data/
 sandcastle/
   01_load_ion.js             eigenes ion-Asset laden, Attribute per Klick
   02_sun.js                  Sonnenstand über dem Campus
-  03_irradiance_TODO.js      Mitmach-Version mit drei Lücken
-  03_irradiance.js           Lösung
+  schritt4/                  Einstrahlung in 4 Stufen, jede Stufe eine lauffähige Datei
+    stufe0_start.js          drei Lücken, Dächer weiß
+    stufe1_farbe.js          TODO 1 gelöst
+    stufe2_normale.js        TODO 2 gelöst
+    stufe3_einfallswinkel.js TODO 3 gelöst = Lösung
+    README.md                die drei Code-Zeilen zum Kopieren
+  make_stufen.py             erzeugt die Stufen aus schritt4/_vorlage.js
 python/
   clip_citygml.py            Kachel zuschneiden
   citygml_roofs.py           Dachflächen aus CityGML -> GeoJSON
@@ -46,9 +51,9 @@ python/
 ## Schnellstart Sandcastle (Schritte 3–4)
 
 1. https://sandcastle.cesium.com öffnen
-2. Inhalt von [`sandcastle/03_irradiance_TODO.js`](sandcastle/03_irradiance_TODO.js) in den Editor kopieren. Oben `ION_ASSET_ID` und, falls nötig, euren Token eintragen.
-3. **Run** klicken. Mit der Zeitleiste die Uhrzeit verschieben, die Dächer werden passend eingefärbt.
-4. Die drei `TODO`s lösen. Zur Kontrolle gibt es [`03_irradiance.js`](sandcastle/03_irradiance.js).
+2. Inhalt von [`sandcastle/schritt4/stufe0_start.js`](sandcastle/schritt4/stufe0_start.js) in den Editor kopieren. In der Token-Zeile die `//` entfernen und den Token aus dem Zoom-Chat einsetzen.
+3. **Run** klicken. Mit der Zeitleiste die Uhrzeit verschieben. Am Anfang sind die Dächer noch weiß.
+4. Die drei `TODO`s der Reihe nach lösen. Welche Zeile wodurch ersetzt wird, steht in [`sandcastle/schritt4/README.md`](sandcastle/schritt4/README.md). Wer hängen bleibt, fügt einfach die Datei der nächsten Stufe komplett ein, die letzte Stufe ist die Lösung.
 
 ## Schnellstart Python (Schritte 5–6)
 

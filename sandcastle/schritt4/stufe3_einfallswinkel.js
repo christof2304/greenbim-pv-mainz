@@ -1,6 +1,8 @@
 // =====================================================================
-//  Green BIM – HS Mainz | Schritt 4: Solare Einstrahlung auf LoD2-Dächer
-//  Einfach komplett in https://sandcastle.cesium.com einfügen und "Run" klicken.
+//  Green BIM – HS Mainz | Schritt 4 · Stufe 3 von 3: Einfallswinkel
+//  Gelöst bis TODO 3. Das ist die fertige Lösung.
+//  Komplett in https://sandcastle.cesium.com einfügen und "Run" klicken.
+//  Alle Stufen: github.com/christof2304/greenbim-pv-mainz/tree/main/sandcastle/schritt4
 // =====================================================================
 
 import * as Cesium from "cesium";
@@ -84,6 +86,7 @@ function sunDirectionENU(time) {
 function surfaceNormalENU(tiltDeg, azimuthDeg) {
   const t = Cesium.Math.toRadians(tiltDeg);
   const a = Cesium.Math.toRadians(azimuthDeg); // 0° = Nord, 90° = Ost, 180° = Süd
+  // ✔ TODO 2 gelöst: Neigung t kippt den Pfeil, Azimut a dreht ihn in die Himmelsrichtung
   return new Cesium.Cartesian3(Math.sin(t) * Math.sin(a), Math.sin(t) * Math.cos(a), Math.cos(t));
 }
 
@@ -94,9 +97,19 @@ function irradiance(sun, tiltDeg, azimuthDeg) {
   const DNI = 1361 * Math.pow(0.7, Math.pow(airMass, 0.678)); // Meinel & Meinel 1976
   const DHI = 0.1 * DNI; // grobe Annahme für klaren Himmel
   const n = surfaceNormalENU(tiltDeg, azimuthDeg);
-  const cosTheta = Cesium.Cartesian3.dot(n, sun); // Einfallswinkel
+  // ✔ TODO 3 gelöst: Skalarprodukt zweier Einheitsvektoren = Kosinus des Winkels
+  const cosTheta = Cesium.Cartesian3.dot(n, sun);
   const tilt = Cesium.Math.toRadians(tiltDeg);
   return DNI * Math.max(0, cosTheta) + DHI * (1 + Math.cos(tilt)) / 2; // W/m²
+}
+
+// Prüft, ob TODO 2 und 3 gelöst sind. Vorher wäre die Leistungssumme Unsinn.
+function todosSolved() {
+  const n = surfaceNormalENU(90, 180); // Südfassade, richtig wäre (0, -1, 0)
+  if (n.y > -0.99) return false;
+  const sunFromNorth = Cesium.Cartesian3.normalize(new Cesium.Cartesian3(0, 1, 0.5), new Cesium.Cartesian3());
+  // Sonne im Norden: Die Südfassade bekommt dann keine Direktstrahlung, ein Flachdach schon
+  return irradiance(sunFromNorth, 90, 180) < 0.5 * irradiance(sunFromNorth, 0, 0);
 }
 
 // ---- 7) Einfärben --------------------------------------------------------
@@ -123,6 +136,7 @@ function updateColors() {
     if (mode.startsWith("Momentan")) {
       const E = irradiance(sun, tilt, az);
       sum += (E * area) / 1000;
+      // ✔ TODO 1 gelöst: Farbe aus der Einstrahlung (0 W/m² = blau, 1000 W/m² = rot)
       color = ramp(E, 0, 1000);
     } else {
       color = ramp(p.irr_kwh_m2.getValue(), 700, 1300);
@@ -132,7 +146,9 @@ function updateColors() {
   const local = Cesium.JulianDate.toDate(time).toLocaleString("de-DE", { timeZone: "Europe/Berlin" });
   legend.innerHTML = mode.startsWith("Momentan")
     ? `<b>${local}</b><br>Sonnenhöhe ${elev.toFixed(1)}°, Azimut ${azim.toFixed(0)}°<br>` +
-      `Leistung auf allen Dächern: <b>${(sum / 1000).toFixed(1)} MW</b> (Strahlung, ohne Wirkungsgrad)<br>` +
+      (todosSolved()
+        ? `Leistung auf allen Dächern: <b>${(sum / 1000).toFixed(1)} MW</b> (Strahlung, ohne Wirkungsgrad)<br>`
+        : `Leistung auf allen Dächern: <b>—</b> (erst nach TODO 2 + 3)<br>`) +
       `<span style="color:#66f">■</span> 0 &nbsp;→&nbsp; <span style="color:#f44">■</span> 1000 W/m²`
     : `<b>Jahressumme (PVGIS-TMY, pvlib)</b><br>` +
       `<span style="color:#66f">■</span> 700 &nbsp;→&nbsp; <span style="color:#f44">■</span> 1300 kWh/m²a`;
