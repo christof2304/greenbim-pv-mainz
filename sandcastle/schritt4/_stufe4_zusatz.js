@@ -174,11 +174,13 @@ Sandcastle.addToolbarButton("Module entfernen", () => modules.entities.removeAll
 Sandcastle.addToolbarButton("Befehl Schritt 5+6", async () => {
   if (!selectedId) return showPanel("Bitte zuerst auf ein <b>Dach</b> klicken.");
   const cmd =
+    `cd PFAD\\ZUM\\REPO\\greenbim-pv-mainz\\python\n` +
     `python citygml_to_ifc.py ../data/campus_lod2.gml ${selectedId} ../data/${selectedId}.ifc\n` +
     `python module_layout.py ../data/${selectedId}.ifc ../data/${selectedId}_pv.ifc`;
   let copied = false;
   try { await navigator.clipboard.writeText(cmd); copied = true; } catch (e) { /* Sandcastle erlaubt die Zwischenablage evtl. nicht */ }
-  showPanel(`<b>Schritt 5+6 für ${selectedId}</b><br>Im Terminal im Ordner <code>python/</code> ausführen:` +
+  showPanel(`<b>Schritt 5+6 für ${selectedId}</b><br>Im Terminal ausführen. <b>Erste Zeile anpassen:</b> ` +
+    `Pfad zu eurem Repo-Ordner <code>python</code> (sonst „No such file“):` +
     `<pre style="white-space:pre-wrap;background:#111;padding:6px;border-radius:4px;font-size:12px">${cmd}</pre>` +
     (copied ? "✔ In die Zwischenablage kopiert." : "Text markieren und mit Strg+C kopieren."));
 });

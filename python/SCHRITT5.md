@@ -87,6 +87,7 @@ Damit werden PV-Module als `IfcSolarDevice` auf alle geeigneten Dachflächen gel
 
 | Meldung | Lösung |
 |---|---|
+| `can't open file '…\citygml_to_ifc.py': No such file or directory` | Ihr steht im falschen Ordner (z. B. `C:\WINDOWS\system32`). Zuerst `cd` in den Ordner `python` des Repos, z. B. `cd C:\Users\<name>\Downloads\greenbim-pv-mainz\python`. |
 | `Gebäude … nicht gefunden` | ID falsch kopiert (Groß-/Kleinschreibung beachten). In Sandcastle erneut klicken. |
 | `ModuleNotFoundError` | `pip install -r requirements.txt` im Ordner `python/` ausführen. |
 | `python` wird nicht gefunden | Python installieren, unter Windows evtl. `py` statt `python` verwenden. |
