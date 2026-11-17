@@ -47,6 +47,7 @@ python/
   ifc_roofs.py               Dachflächen aus beliebigem IFC (z. B. Revit) bewerten
   module_layout.py           Modulbelegung als IfcSolarDevice ins IFC schreiben
   SCHRITT5.md                Anleitung: Gebäude-ID aus Sandcastle → IFC
+  SCHRITT6.md                Anleitung: Modulbelegung, Ertrag, Ökobilanz
 ```
 
 ## Schnellstart Sandcastle (Schritte 3–4)
@@ -58,7 +59,9 @@ python/
 
 ## Schnellstart Python (Schritte 5–6)
 
-Ausführliche Anleitung für Schritt 5 (Gebäude aus Sandcastle auswählen → IFC): [`python/SCHRITT5.md`](python/SCHRITT5.md)
+Ausführliche Anleitungen:
+- Schritt 5 (Gebäude aus Sandcastle auswählen → IFC): [`python/SCHRITT5.md`](python/SCHRITT5.md)
+- Schritt 6 (Module legen, Ertrag, Ökobilanz): [`python/SCHRITT6.md`](python/SCHRITT6.md)
 
 ```bash
 cd python

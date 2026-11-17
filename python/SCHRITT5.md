@@ -79,7 +79,7 @@ Dass das Modell in Blender nahe am Nullpunkt liegt, ist richtig so. Die echte La
 python module_layout.py ../data/mein_gebaeude.ifc ../data/mein_gebaeude_pv.ifc
 ```
 
-Damit werden PV-Module als `IfcSolarDevice` auf alle geeigneten Dachflächen gelegt.
+Damit werden PV-Module als `IfcSolarDevice` auf alle geeigneten Dachflächen gelegt. Details: [SCHRITT6.md](SCHRITT6.md)
 
 ## Wenn etwas nicht klappt
 
