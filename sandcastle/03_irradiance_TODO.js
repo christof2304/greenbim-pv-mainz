@@ -105,6 +105,15 @@ function irradiance(sun, tiltDeg, azimuthDeg) {
   return DNI * Math.max(0, cosTheta) + DHI * (1 + Math.cos(tilt)) / 2; // W/m²
 }
 
+// Prüft, ob TODO 1 und 2 gelöst sind. Vorher wäre die Leistungssumme Unsinn.
+function todosSolved() {
+  const n = surfaceNormalENU(90, 180); // Südfassade, richtig wäre (0, -1, 0)
+  if (n.y > -0.99) return false;
+  const sunFromNorth = Cesium.Cartesian3.normalize(new Cesium.Cartesian3(0, 1, 0.5), new Cesium.Cartesian3());
+  // Sonne im Norden: Die Südfassade bekommt dann keine Direktstrahlung, ein Flachdach schon
+  return irradiance(sunFromNorth, 90, 180) < 0.5 * irradiance(sunFromNorth, 0, 0);
+}
+
 // ---- 7) Einfärben --------------------------------------------------------
 const ramp = (v, min, max) =>
   Cesium.Color.fromHsl(0.66 * (1 - Cesium.Math.clamp((v - min) / (max - min), 0, 1)), 1.0, 0.5, 0.9);
@@ -140,7 +149,9 @@ function updateColors() {
   const local = Cesium.JulianDate.toDate(time).toLocaleString("de-DE", { timeZone: "Europe/Berlin" });
   legend.innerHTML = mode.startsWith("Momentan")
     ? `<b>${local}</b><br>Sonnenhöhe ${elev.toFixed(1)}°, Azimut ${azim.toFixed(0)}°<br>` +
-      `Leistung auf allen Dächern: <b>${(sum / 1000).toFixed(1)} MW</b> (Strahlung, ohne Wirkungsgrad)<br>` +
+      (todosSolved()
+        ? `Leistung auf allen Dächern: <b>${(sum / 1000).toFixed(1)} MW</b> (Strahlung, ohne Wirkungsgrad)<br>`
+        : `Leistung auf allen Dächern: <b>—</b> (erst nach TODO 1 + 2)<br>`) +
       `<span style="color:#66f">■</span> 0 &nbsp;→&nbsp; <span style="color:#f44">■</span> 1000 W/m²`
     : `<b>Jahressumme (PVGIS-TMY, pvlib)</b><br>` +
       `<span style="color:#66f">■</span> 700 &nbsp;→&nbsp; <span style="color:#f44">■</span> 1300 kWh/m²a`;
@@ -161,13 +172,19 @@ Sandcastle.addToolbarMenu(
     onselect: () => { mode = text; updateColors(); },
   }))
 );
-Sandcastle.addToolbarButton("21. Juni", () => {
-  viewer.clock.currentTime = Cesium.JulianDate.fromIso8601("2026-06-21T10:00:00Z");
-});
-Sandcastle.addToolbarButton("21. Dezember", () => {
-  viewer.clock.currentTime = Cesium.JulianDate.fromIso8601("2026-12-21T11:00:00Z");
-});
-Sandcastle.addToolbarButton("Jetzt", () => {
-  viewer.clock.currentTime = Cesium.JulianDate.now();
-});
+// Springt zu einem Tag und stellt die Zeitleiste auf diesen Tag (04:00–22:00 Ortszeit)
+function gotoDay(date, hourUTC) {
+  const d = date.toISOString().slice(0, 10);
+  const t0 = Cesium.JulianDate.fromIso8601(`${d}T03:00:00Z`);
+  const t1 = Cesium.JulianDate.fromIso8601(`${d}T21:00:00Z`);
+  viewer.clock.startTime = t0;
+  viewer.clock.stopTime = t1;
+  viewer.clock.currentTime = hourUTC === undefined
+    ? Cesium.JulianDate.fromDate(date)
+    : Cesium.JulianDate.fromIso8601(`${d}T${String(hourUTC).padStart(2, "0")}:00:00Z`);
+  viewer.timeline.zoomTo(t0, t1);
+}
+Sandcastle.addToolbarButton("21. Juni", () => gotoDay(new Date("2026-06-21T12:00:00Z"), 10));
+Sandcastle.addToolbarButton("21. Dezember", () => gotoDay(new Date("2026-12-21T12:00:00Z"), 11));
+Sandcastle.addToolbarButton("Jetzt", () => gotoDay(new Date()));
 updateColors();
