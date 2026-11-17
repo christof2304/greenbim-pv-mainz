@@ -1,0 +1,8 @@
+ifcopenshell>=0.8
+pvlib>=0.11
+shapely>=2.0
+pyproj>=3.6
+lxml>=5
+numpy
+pandas
+matplotlib

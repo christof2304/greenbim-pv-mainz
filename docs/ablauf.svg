@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 170" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .box{fill:#f4f7f2;stroke:#3d7a3a;stroke-width:2;rx:10}
+    .demo{fill:#eef2f8;stroke:#3b5b8c}
+    .t{font-size:15px;font-weight:600;fill:#1d2b1c;text-anchor:middle}
+    .s{font-size:12px;fill:#4a5a49;text-anchor:middle}
+    .a{stroke:#6a7a69;stroke-width:2;fill:none;marker-end:url(#m)}
+    .lbl{font-size:12px;font-weight:600;text-anchor:middle}
+  </style>
+  <defs><marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a7a69"/></marker></defs>
+  <rect x="0" y="0" width="960" height="170" fill="#ffffff"/>
+  <text x="250" y="22" class="lbl" fill="#3d7a3a">gemeinsam (Browser)</text>
+  <text x="745" y="22" class="lbl" fill="#3b5b8c">Demo (Python + Bonsai), danach eure Hausarbeit</text>
+  <rect class="box" x="10" y="40" width="140" height="90" rx="10"/>
+  <text x="80" y="78" class="t">CityGML LoD2</text><text x="80" y="98" class="s">GeoBasis RLP</text><text x="80" y="114" class="s">450 Gebäude</text>
+  <rect class="box" x="180" y="40" width="140" height="90" rx="10"/>
+  <text x="250" y="78" class="t">Cesium ion</text><text x="250" y="98" class="s">Upload →</text><text x="250" y="114" class="s">3D Tiles</text>
+  <rect class="box" x="350" y="40" width="160" height="90" rx="10"/>
+  <text x="430" y="72" class="t">Sandcastle</text><text x="430" y="92" class="s">Sonnenstand</text><text x="430" y="108" class="s">Einstrahlung je Dach</text>
+  <rect class="box demo" x="540" y="40" width="130" height="90" rx="10"/>
+  <text x="605" y="72" class="t">IFC 4</text><text x="605" y="92" class="s">IfcOpenShell</text><text x="605" y="108" class="s">georeferenziert</text>
+  <rect class="box demo" x="700" y="40" width="120" height="90" rx="10"/>
+  <text x="760" y="72" class="t">pvlib</text><text x="760" y="92" class="s">PVGIS-Wetter</text><text x="760" y="108" class="s">kWh/kWp</text>
+  <rect class="box demo" x="850" y="40" width="100" height="90" rx="10"/>
+  <text x="900" y="72" class="t">Bonsai</text><text x="900" y="92" class="s">IfcSolar-</text><text x="900" y="108" class="s">Device</text>
+  <path class="a" d="M150,85 H178"/><path class="a" d="M320,85 H348"/><path class="a" d="M510,85 H538"/><path class="a" d="M670,85 H698"/><path class="a" d="M820,85 H848"/>
+  <text x="480" y="158" class="s">Schritte 1–4: ion-Account, Upload, Sandcastle, Einstrahlungsfunktion  ·  Schritte 5–6: CityGML → IFC, Ertrag, Modulbelegung</text>
+</svg>
