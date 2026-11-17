@@ -36,14 +36,27 @@ function segX(a, b, c, d) {
   const cr = (p, q, r) => (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);
   return cr(a, b, c) * cr(a, b, d) < 0 && cr(c, d, a) * cr(c, d, b) < 0;
 }
-// Passt ein Rechteck (inkl. Randabstand) vollständig ins Dachpolygon?
+// Abstand Punkt–Strecke
+function distPtSeg(p, a, b) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy;
+  const t = l2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2)) : 0;
+  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+}
+// Liegt ein Rechteck vollständig im Dachpolygon, mit mindestens s Abstand zu jeder Dachkante?
+// (entspricht poly.buffer(-s).contains(box) in Python, auch bei schräg liegenden Kanten)
 function fits(x, y, w, h, s, poly) {
-  const r = [[x - s, y - s], [x + w + s, y - s], [x + w + s, y + h + s], [x - s, y + h + s]];
+  const r = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]];
   if (!r.every((p) => inside(p, poly))) return false;
-  if (poly.some((p) => p[0] > r[0][0] && p[0] < r[1][0] && p[1] > r[0][1] && p[1] < r[2][1])) return false;
-  for (let i = 0; i < 4; i++)
-    for (let k = 0; k < poly.length; k++)
-      if (segX(r[i], r[(i + 1) % 4], poly[k], poly[(k + 1) % poly.length])) return false;
+  if (poly.some((p) => p[0] > x && p[0] < x + w && p[1] > y && p[1] < y + h)) return false;
+  const nP = poly.length;
+  for (let k = 0; k < nP; k++) {
+    const a = poly[k], b = poly[(k + 1) % nP];
+    for (let i = 0; i < 4; i++) {
+      if (segX(r[i], r[(i + 1) % 4], a, b)) return false;
+      if (distPtSeg(r[i], a, b) < s) return false;            // Rechteckecke zu nah an der Dachkante
+      if (distPtSeg(a, r[i], r[(i + 1) % 4]) < s) return false; // Dachecke zu nah an der Modulkante
+    }
+  }
   return true;
 }
 // Raster in mehreren Lagen probieren, die Lage mit den meisten Modulen gewinnt (wie pack() in Python)
