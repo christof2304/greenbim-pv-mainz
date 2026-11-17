@@ -14,6 +14,8 @@ Ihr braucht: Python ≥ 3.11 mit den Paketen aus `requirements.txt` und, zum Ans
 
 Die ID ist die `gml:id` des Gebäudes im amtlichen Stadtmodell.
 
+**Abkürzung:** In [`sandcastle/schritt4/stufe4_gebaeude.js`](../sandcastle/schritt4/stufe4_gebaeude.js) aufs Dach klicken und dann den Button **„Befehl Schritt 5+6“** drücken. Er zeigt beide Python-Befehle schon mit der richtigen ID. Mit **„Module legen“** seht ihr die Belegung vorab im 3D-Modell.
+
 ## 2. Einmalig: Python-Pakete installieren
 
 Terminal öffnen (Windows: PowerShell, Mac/Linux: Terminal) und in den Ordner `python/` des Repos wechseln:
