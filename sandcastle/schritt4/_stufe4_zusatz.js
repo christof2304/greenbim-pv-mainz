@@ -132,7 +132,7 @@ let selectedId = null;
 
 const panel = document.createElement("div");
 panel.style.cssText =
-  "position:absolute;top:50px;right:10px;width:340px;background:rgba(40,40,40,.9);color:#fff;" +
+  "position:absolute;top:50px;left:10px;width:340px;background:rgba(40,40,40,.9);color:#fff;" +
   "padding:10px 12px;font:13px sans-serif;border-radius:6px;user-select:text";
 document.getElementById("cesiumContainer").appendChild(panel);
 const showPanel = (html) => { panel.innerHTML = html; };
